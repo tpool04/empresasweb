@@ -1,0 +1,61 @@
+<div *ngIf="mensagem_sucesso" (click)="mensagem_sucesso = ''" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Sucesso!</strong> {{mensagem_sucesso}}
+    <button type="button" class="btn-close" aria-label="Close"></button>
+</div>
+ 
+<div>
+    <h3>Consulta de Empresas</h3>
+    <p>Listagem de empresas cadastradas.</p>
+    <hr />
+ 
+    <!-- régua de paginação -->
+    <div class="text-center">
+        <pagination-controls
+            (pageChange)="handlePageChange($event)"
+            previousLabel="Página anterior"
+            nextLabel="Próxima página"
+        >            
+        </pagination-controls>
+    </div>
+ 
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th>Nome fantasia</th>
+                <th>Razão social</th>
+                <th>CNPJ</th>
+                <th>Operações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let e of empresas | paginate : { itemsPerPage: 4, currentPage: pagina }">
+                <td>{{e.nomeFantasia | uppercase}}</td>
+                <td>{{e.razaoSocial}}</td>
+                <td>{{e.cnpj}}</td>
+                <td>
+                    <button
+                        [routerLink]="['/empresas-edicao', e.idEmpresa]"
+                        class="btn btn-sm btn-primary">
+                        Editar
+                    </button>
+                    &nbsp;
+                    <button (click)="onDelete(e.idEmpresa)"
+                        class="btn btn-sm btn-danger">
+                        Excluir
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    Quantidade de empresas: {{empresas.length}}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+ 
+</div>
+ 
+
+
